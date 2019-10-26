@@ -31,11 +31,18 @@
                             <outlet property="delegate" destination="swx-oa-blh" id="PVo-Ds-D4U"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Todo Me" id="qLx-Pf-Ly7"/>
+                    <navigationItem key="navigationItem" title="Todo Me" id="qLx-Pf-Ly7">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="2Me-rW-Y4z">
+                            <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <connections>
+                                <action selector="addItem:" destination="swx-oa-blh" id="6n6-AJ-2r0"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VkH-e0-9C5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1505.7971014492755" y="113.83928571428571"/>
+            <point key="canvasLocation" x="1403" y="114"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="1RY-xu-oPT">
