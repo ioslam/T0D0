@@ -4,19 +4,11 @@ import UIKit
 class TodoViewController: UITableViewController {
   
     var list: [TodoModel] = []
-    var myTodos = TodoModel()
-    let userData = UserDefaults.standard
-    
+   
+    let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("todo.plist")
     override func viewDidLoad() {
         super.viewDidLoad()
-//        if let items = self.userData.array(forKey: "Data") as? [String]{
-//            self.list = items
-//      }
-       self.myTodos.todoText = "Play"
-        self.myTodos.isDone = true
-        //let new = TodoModel()
-        //new.todoText = "Jaban"
-        self.list.append(myTodos)
+        loadData()
     }
   
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -47,7 +39,7 @@ class TodoViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //      Check True || False
         list[indexPath.row].isDone = !list[indexPath.row].isDone
-        
+        saveData()
 //      Equilvant to the code above
         
 /*      if list[indexPath.row].isDone == true {
@@ -57,22 +49,49 @@ class TodoViewController: UITableViewController {
           list[indexPath.row].isDone = true
         }
 */
-        self.tableView.reloadData()
        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     // MARK: Add Item Button Bar
     @IBAction func addItem(_ sender: UIBarButtonItem) {
-          let ac = UIAlertController(title: "Enter Item", message: nil, preferredStyle: .alert)
-          ac.addTextField()
+            var textField = UITextField()
+            let alert = UIAlertController(title: "Enter Item", message: nil, preferredStyle: .alert)
 
-          let submitAction = UIAlertAction(title: "Add", style: .default) { [unowned ac] _ in
-              let answer = ac.textFields![0]
-            self.list[0].todoText.append(answer.text!)
-              self.userData.set(self.list, forKey: "Data")
-              self.tableView.reloadData()
+            let action = UIAlertAction(title: "Add", style: .default) { (action) in
+//
+            let newTodoItem = TodoModel()
+            
+                newTodoItem.todoText = textField.text!
+                self.list.append(newTodoItem)
+                self.saveData()
+            
           }
-          ac.addAction(submitAction)
-          present(ac, animated: true)
-      }
-}
+            alert.addTextField { (alertTextField) in
+            alertTextField.placeholder = "Enter Todo"
+            textField = alertTextField
+        }
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
+    }
+    func saveData() {
+        let encoder = PropertyListEncoder()
+        do{
+            let data = try encoder.encode(self.list)
+            try data.write(to: self.filePath!)
+            
+        } catch {
+            print("unable to encoder: \(error)")
+        }
+          self.tableView.reloadData()
+    }
+    func loadData() {
+        let data = try? Data(contentsOf: filePath!)
+        let decoder = PropertyListDecoder()
+        do {
+            list = try decoder.decode([TodoModel].self, from: data!)
+        } catch {
+            print("\(error)")
+        }
+    }
+    
+} // End of Class: TodoViewController

@@ -8,8 +8,8 @@
 
 import Foundation
 
-class TodoModel {
-    var todoText: String = "x"
+class TodoModel: Codable {
+    var todoText: String = ""
     var isDone: Bool = false
 //    init(_ todoText: String, _ isDone: Bool) {
 //        self.todoText = todoText
