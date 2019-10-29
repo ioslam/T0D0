@@ -37,6 +37,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AA779C0C23688DD400385193 /* Data Model */ = {
+			isa = PBXGroup;
+			children = (
+				AAFB9E6C23650A460034CBF7 /* TodoModel.swift */,
+			);
+			path = "Data Model";
+			sourceTree = "<group>";
+		};
+		AA779C0D23688E1900385193 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				AAAB9F8623637DC300267CF9 /* TodoViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		AA779C0E23688E3C00385193 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				AAAB9F8B23637DC400267CF9 /* Assets.xcassets */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		AA779C0F23688E5500385193 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AAAB9F962363891C00267CF9 /* Main.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		AAAB9F7623637DC300267CF9 = {
 			isa = PBXGroup;
 			children = (
@@ -56,13 +88,13 @@
 		AAAB9F8123637DC300267CF9 /* T0D0 */ = {
 			isa = PBXGroup;
 			children = (
+				AAAB9F9023637DC400267CF9 /* Info.plist */,
 				AAAB9F8223637DC300267CF9 /* AppDelegate.swift */,
 				AAAB9F8423637DC300267CF9 /* SceneDelegate.swift */,
-				AAAB9F8623637DC300267CF9 /* TodoViewController.swift */,
-				AAAB9F8B23637DC400267CF9 /* Assets.xcassets */,
-				AAAB9F962363891C00267CF9 /* Main.storyboard */,
-				AAAB9F9023637DC400267CF9 /* Info.plist */,
-				AAFB9E6C23650A460034CBF7 /* TodoModel.swift */,
+				AA779C0D23688E1900385193 /* Controllers */,
+				AA779C0E23688E3C00385193 /* Supporting Files */,
+				AA779C0F23688E5500385193 /* Views */,
+				AA779C0C23688DD400385193 /* Data Model */,
 			);
 			path = T0D0;
 			sourceTree = "<group>";
