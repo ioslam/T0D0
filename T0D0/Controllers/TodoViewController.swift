@@ -30,8 +30,8 @@ class TodoViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         list[indexPath.row].isDone = !list[indexPath.row].isDone
-        context.delete(list[indexPath.row])
-        list.remove(at: indexPath.row)
+//        context.delete(list[indexPath.row])
+//        list.remove(at: indexPath.row)
         saveData()
        tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -40,6 +40,8 @@ class TodoViewController: UITableViewController {
     @IBAction func addItem(_ sender: UIBarButtonItem) {
             var textField = UITextField()
             let alert = UIAlertController(title: "Enter Item", message: nil, preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+
             let action = UIAlertAction(title: "Add", style: .default) { (action) in
                 
             let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -56,6 +58,7 @@ class TodoViewController: UITableViewController {
             textField = alertTextField
         }
         alert.addAction(action)
+        alert.addAction(cancelAction)
         present(alert, animated: true, completion: nil)
     }
     
@@ -70,12 +73,21 @@ class TodoViewController: UITableViewController {
           self.tableView.reloadData()
     }
     
-    func loadData() {
-        do {
-             let fetchRequest: NSFetchRequest<TodoItem> = TodoItem.fetchRequest()
-             list = try context.fetch(fetchRequest)
-        } catch let error as NSError {
-        print("Could not fetch. \(error), \(error.userInfo)")
-        }
+    func loadData(with fetchRequest: NSFetchRequest<TodoItem> = TodoItem.fetchRequest()) {
+       do {
+                 list = try context.fetch(fetchRequest)
+                } catch let error as NSError {
+                  print("Could not fetch. \(error), \(error.userInfo)")
+                  }
+        tableView.reloadData()
     }
 } // End of Class: TodoViewController
+
+extension TodoViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let fetchRequest: NSFetchRequest<TodoItem> = TodoItem.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        loadData(with : fetchRequest)
+    }
+}
