@@ -1,13 +1,15 @@
 
 import UIKit
-
+import CoreData
 class TodoViewController: UITableViewController {
   
-    var list: [TodoModel] = []
-   
+    var list: [TodoItem] = []
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("todo.plist")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         loadData()
     }
   
@@ -18,37 +20,19 @@ class TodoViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let thisItem = list[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "todo_cell", for: indexPath)
-        cell.textLabel?.text = thisItem.todoText
-        
-        // Ternary Expression
-        // cell.accessoryType = thisItem.isDone == false ? .none : .checkmark
+        cell.textLabel?.text = thisItem.title
         
         // Ternary Expression Shorter
            cell.accessoryType = thisItem.isDone ? .checkmark : .none
-//         Equilvant to the code above
-        
-/*        if list[indexPath.row].isDone == false {
-            cell.accessoryType = .none
-        } else {
-            cell.accessoryType = .checkmark
-        }
-*/
         return cell
     }
    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//      Check True || False
-        list[indexPath.row].isDone = !list[indexPath.row].isDone
-        saveData()
-//      Equilvant to the code above
         
-/*      if list[indexPath.row].isDone == true {
-            list[indexPath.row].isDone = false
-        }
-        else {
-          list[indexPath.row].isDone = true
-        }
-*/
+        list[indexPath.row].isDone = !list[indexPath.row].isDone
+        context.delete(list[indexPath.row])
+        list.remove(at: indexPath.row)
+        saveData()
        tableView.deselectRow(at: indexPath, animated: true)
     }
     
@@ -56,15 +40,16 @@ class TodoViewController: UITableViewController {
     @IBAction func addItem(_ sender: UIBarButtonItem) {
             var textField = UITextField()
             let alert = UIAlertController(title: "Enter Item", message: nil, preferredStyle: .alert)
-
             let action = UIAlertAction(title: "Add", style: .default) { (action) in
-//
-            let newTodoItem = TodoModel()
-            
-                newTodoItem.todoText = textField.text!
+                
+            let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+                
+            let newTodoItem = TodoItem(context: context)
+                
+                newTodoItem.title = textField.text!
+                newTodoItem.isDone = false
                 self.list.append(newTodoItem)
                 self.saveData()
-            
           }
             alert.addTextField { (alertTextField) in
             alertTextField.placeholder = "Enter Todo"
@@ -73,25 +58,24 @@ class TodoViewController: UITableViewController {
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
     }
+    
     func saveData() {
-        let encoder = PropertyListEncoder()
+        
         do{
-            let data = try encoder.encode(self.list)
-            try data.write(to: self.filePath!)
+            try self.context.save()
             
         } catch {
-            print("unable to encoder: \(error)")
+            print("error saving context: \(error)")
         }
           self.tableView.reloadData()
     }
+    
     func loadData() {
-        let data = try? Data(contentsOf: filePath!)
-        let decoder = PropertyListDecoder()
         do {
-            list = try decoder.decode([TodoModel].self, from: data!)
-        } catch {
-            print("\(error)")
+             let fetchRequest: NSFetchRequest<TodoItem> = TodoItem.fetchRequest()
+             list = try context.fetch(fetchRequest)
+        } catch let error as NSError {
+        print("Could not fetch. \(error), \(error.userInfo)")
         }
     }
-    
 } // End of Class: TodoViewController
