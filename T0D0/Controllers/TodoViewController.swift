@@ -90,4 +90,12 @@ extension TodoViewController: UISearchBarDelegate {
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
         loadData(with : fetchRequest)
     }
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text == "" {
+            loadData()
+            DispatchQueue.main.async {
+            searchBar.resignFirstResponder()
+            }
+        }
+    }
 }
