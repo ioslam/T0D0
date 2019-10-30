@@ -9,8 +9,8 @@
         <!--todoTableVew-->
         <scene sceneID="TU2-no-2en">
             <objects>
-                <tableViewController title="todoTableVew" id="swx-oa-blh" customClass="TodoViewController" customModule="T0D0" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="IUR-iS-WCc">
+                <tableViewController storyboardIdentifier="todoVC" title="todoTableVew" id="swx-oa-blh" customClass="TodoViewController" customModule="T0D0" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="IUR-iS-WCc" userLabel="Todos Table View">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -54,7 +54,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VkH-e0-9C5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1403" y="114"/>
+            <point key="canvasLocation" x="2057" y="108"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="1RY-xu-oPT">
@@ -72,12 +72,51 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="swx-oa-blh" kind="relationship" relationship="rootViewController" id="j8c-si-VUg"/>
+                        <segue destination="I90-B2-JcW" kind="relationship" relationship="rootViewController" id="2Na-sk-ztm"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g07-yX-A7q" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="595.6521739130435" y="113.83928571428571"/>
+            <point key="canvasLocation" x="465" y="108"/>
+        </scene>
+        <!--Categories-->
+        <scene sceneID="nkw-Ej-D07">
+            <objects>
+                <tableViewController storyboardIdentifier="goToCategories" id="I90-B2-JcW" customClass="CategoryViewController" customModule="T0D0" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="qJ6-k0-MDN" userLabel="Category Table View">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="categoryTableCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="categoryCell" id="HEa-Xy-Ye9" userLabel="categories_cell">
+                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="category_cell" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HEa-Xy-Ye9" id="iMI-pu-bMM">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="I90-B2-JcW" id="SED-os-KS3"/>
+                            <outlet property="delegate" destination="I90-B2-JcW" id="dHH-MM-MBQ"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Categories" id="nfs-M5-VFn">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="CfY-Zw-lIy">
+                            <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <connections>
+                                <action selector="addCategoryPressed:" destination="I90-B2-JcW" id="7fr-zn-aa5"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <segue destination="swx-oa-blh" kind="show" identifier="goToCategory" id="EWe-lI-6aJ"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="n1o-eT-fij" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1292" y="109"/>
         </scene>
     </scenes>
 </document>

@@ -44,9 +44,9 @@ class TodoViewController: UITableViewController {
 
             let action = UIAlertAction(title: "Add", style: .default) { (action) in
                 
-            let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+            //let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
                 
-            let newTodoItem = TodoItem(context: context)
+                let newTodoItem = TodoItem(context: self.context)
                 
                 newTodoItem.title = textField.text!
                 newTodoItem.isDone = false
