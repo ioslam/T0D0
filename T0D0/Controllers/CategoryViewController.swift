@@ -28,10 +28,14 @@ class CategoryViewController: UITableViewController {
         return cell
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        let vc =  storyBoard.instantiateViewController(identifier: "todoVC") as! TodoViewController
-        self.navigationController?.pushViewController(vc, animated: true)
+        performSegue(withIdentifier: "goToItems", sender: self)
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let vc =  segue.destination as! TodoViewController
+        if let indexPath = tableView.indexPathForSelectedRow {
+            vc.selectedCategory = categoryList[indexPath.row]
+        }
+        print(vc.selectedCategory!)
     }
     // MARK: - Buttons Pressed
     @IBAction func addCategoryPressed(_ sender: UIBarButtonItem) {
