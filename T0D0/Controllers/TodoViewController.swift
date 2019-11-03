@@ -2,7 +2,8 @@ import UIKit
 import CoreData
 
 class TodoViewController: UITableViewController {
-  
+    var category = CategoryViewController()
+    var categoryTitle = "x"
     var list: [TodoItem] = []
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("todo.plist")
@@ -13,6 +14,7 @@ class TodoViewController: UITableViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        category.delegate = self
         //print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         //loadData()
     }
@@ -25,7 +27,8 @@ class TodoViewController: UITableViewController {
         let thisItem = list[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "todo_cell", for: indexPath)
         cell.textLabel?.text = thisItem.title
-        
+        navigationItem.title = self.categoryTitle
+
         // Ternary Expression Shorter
            cell.accessoryType = thisItem.isDone ? .checkmark : .none
         return cell
@@ -107,5 +110,11 @@ extension TodoViewController: UISearchBarDelegate {
             searchBar.resignFirstResponder()
             }
         }
+    }
+}
+
+extension TodoViewController: CategoryTitleDelegate {
+    func getCategoryTitle(categoryTitle: String) {
+        self.categoryTitle = categoryTitle
     }
 }

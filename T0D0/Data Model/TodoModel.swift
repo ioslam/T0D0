@@ -8,6 +8,9 @@
 
 import Foundation
 
+// MARK: TodoModel Class /before Using CoreData
+// NOTE: This Class has no use now, if it's deleted it won't affect the App at all
+
 class TodoModel: Codable {
     var todoText: String = ""
     var isDone: Bool = false

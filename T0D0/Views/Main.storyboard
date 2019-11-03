@@ -43,7 +43,7 @@
                             <outlet property="delegate" destination="swx-oa-blh" id="PVo-Ds-D4U"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Todo Me" id="qLx-Pf-Ly7">
+                    <navigationItem key="navigationItem" id="qLx-Pf-Ly7">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="2Me-rW-Y4z">
                             <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                             <connections>

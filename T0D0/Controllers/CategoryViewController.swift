@@ -10,10 +10,14 @@ import UIKit
 import CoreData
 
 class CategoryViewController: UITableViewController {
+    
+    var delegate: CategoryTitleDelegate?
+   
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var categoryList = [Category]()
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         loadData()
     }
 
@@ -27,15 +31,21 @@ class CategoryViewController: UITableViewController {
         cell.textLabel?.text = categoryList[indexPath.row].name
         return cell
     }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "goToItems", sender: self)
     }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let vc =  segue.destination as! TodoViewController
         if let indexPath = tableView.indexPathForSelectedRow {
             vc.selectedCategory = categoryList[indexPath.row]
+            vc.categoryTitle = categoryList[indexPath.row].name!
+            
+            // Get navigationItem Title By Delegates
+            self.delegate?.getCategoryTitle(categoryTitle: categoryList[indexPath.row].name!)
+            //self.dismiss(animated: true, completion: nil)
         }
-        print(vc.selectedCategory!)
     }
     // MARK: - Buttons Pressed
     @IBAction func addCategoryPressed(_ sender: UIBarButtonItem) {
@@ -57,6 +67,7 @@ class CategoryViewController: UITableViewController {
         alert.addAction(cancel)
        present(alert, animated: true, completion: nil)
     }
+    
     // MARK: - Core Data Methods [CRUD]
     func saveData() {
         do {
@@ -66,6 +77,7 @@ class CategoryViewController: UITableViewController {
         }
         self.tableView.reloadData()
     }
+    
     func loadData(with fetchRequest: NSFetchRequest<Category> = Category.fetchRequest()) {
         do {
             categoryList = try context.fetch(fetchRequest)
@@ -76,3 +88,4 @@ class CategoryViewController: UITableViewController {
         tableView.reloadData()
     }
 }
+
