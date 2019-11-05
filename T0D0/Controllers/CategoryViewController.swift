@@ -10,9 +10,7 @@ import UIKit
 import CoreData
 
 class CategoryViewController: UITableViewController {
-    
-    var delegate: CategoryTitleDelegate?
-   
+       
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var categoryList = [Category]()
     override func viewDidLoad() {
@@ -41,10 +39,6 @@ class CategoryViewController: UITableViewController {
         if let indexPath = tableView.indexPathForSelectedRow {
             vc.selectedCategory = categoryList[indexPath.row]
             vc.categoryTitle = categoryList[indexPath.row].name!
-            
-            // Get navigationItem Title By Delegates
-            self.delegate?.getCategoryTitle(categoryTitle: categoryList[indexPath.row].name!)
-            //self.dismiss(animated: true, completion: nil)
         }
     }
     // MARK: - Buttons Pressed

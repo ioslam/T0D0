@@ -14,7 +14,6 @@ class TodoViewController: UITableViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        category.delegate = self
         //print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         //loadData()
     }
@@ -99,9 +98,9 @@ class TodoViewController: UITableViewController {
 extension TodoViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let fetchRequest: NSFetchRequest<TodoItem> = TodoItem.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
+        let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
-        loadData(with : fetchRequest)
+        loadData(with : fetchRequest, predicate: predicate)
     }
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchBar.text == "" {
@@ -110,11 +109,5 @@ extension TodoViewController: UISearchBarDelegate {
             searchBar.resignFirstResponder()
             }
         }
-    }
-}
-
-extension TodoViewController: CategoryTitleDelegate {
-    func getCategoryTitle(categoryTitle: String) {
-        self.categoryTitle = categoryTitle
     }
 }
