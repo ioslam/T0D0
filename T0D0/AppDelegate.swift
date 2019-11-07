@@ -8,12 +8,21 @@
 
 import UIKit
 import CoreData
+import RealmSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     //let userData = UserDefaults.standard
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-       // print(userData.array(forKey: "Data")!)
+          print(Realm.Configuration.defaultConfiguration.fileURL!)
+//        do {
+//        let realm = try Realm()
+//            
+//        } catch {
+//            print("Error in realm")
+//        }
+        
+        
         return true
     }
 
