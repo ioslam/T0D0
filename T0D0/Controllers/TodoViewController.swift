@@ -1,7 +1,7 @@
 import UIKit
 import RealmSwift
 
-class TodoViewController: UITableViewController {
+class TodoViewController: SwipeCellTableViewController {
     
     var categoryTitle = ""
     var todos: Results<Todo>?
@@ -13,6 +13,7 @@ class TodoViewController: UITableViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.rowHeight = 80
     }
   
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -20,10 +21,10 @@ class TodoViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "todo_cell", for: indexPath)
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
         navigationItem.title = self.categoryTitle
         if let todoItem = todos?[indexPath.row] {
-            cell.textLabel?.text = todoItem.title 
+            cell.textLabel?.text = todoItem.title
             cell.accessoryType = todoItem.isDone ? .checkmark : .none
         } else {
             cell.textLabel?.text = "No Items added yet"
@@ -89,6 +90,19 @@ class TodoViewController: UITableViewController {
         todos = selectedCategory?.todos.sorted(byKeyPath: "title", ascending: true)
 
         tableView.reloadData()
+    }
+    override func update(at indexPath: IndexPath) {
+        if  let todoDeletion = todos?[indexPath.row] {
+            
+        
+        do{
+            try realm.write {
+                realm.delete(todoDeletion)
+            }
+        } catch {
+            print("11111 \(error)")
+            }
+        }
     }
 } // End of Class: TodoViewController
 
